@@ -37,19 +37,52 @@
                 <TextBlock Grid.Row="2" FontSize="20" Grid.ColumnSpan="2" Margin="79,0,180,0">100kg</TextBlock>
                 <TextBlock Grid.Row="3" FontSize="20" Grid.ColumnSpan="2" Margin="79,0,0,0">100kg</TextBlock>
                 <TextBlock Grid.Row="4" FontSize="20" Grid.ColumnSpan="2" Margin="54,0,63,0">100kg</TextBlock>
-                <Button Grid.Row="0" Grid.Column="1" Content="Settings" VerticalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2" />
-                <Button Grid.Row="4" Grid.Column="1" Content="Log new" VerticalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2" />
+                <Button Name="settingsButton" Grid.Row="0" Grid.Column="1" Content="Settings" VerticalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2" Click="settingsButton_Click" />
+                <Button Name="logNewbutton" Grid.Row="4" Grid.Column="1" Content="Log new" VerticalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2" Click="logNewbutton_Click" />
             </Grid>
         </DockPanel>
         <DockPanel Grid.Row="1" Margin="8,0,8,8" Background="DarkCyan" Opacity="1">
             <TabControl Margin="2">
                 <TabItem Header="Detailed Overview">
-                    <Grid Background="CadetBlue" />
+                    <Grid Background="CadetBlue">
+                        <ListView Name="logsTable"  Margin="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                    <Setter Property="Focusable" Value="True" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding Username}" />
+                                    <GridViewColumn Header="Weight" Width="50" DisplayMemberBinding="{Binding Weight}" />
+                                    <GridViewColumn Header="Date" Width="150" DisplayMemberBinding="{Binding LogDate}" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
                 </TabItem>
-                <TabItem Header="Log new">
-                    <Grid Background="CadetBlue" />
+                <TabItem Name="logNewTab" Header="Log new">
+                    <Grid Background="CadetBlue">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="3*" />
+                            <RowDefinition Height="1*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox Name="weightBox" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="0,5,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="{Binding ElementName=weightSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
+                        <Slider Grid.Row="0" Grid.Column="1" Name="weightSlider" HorizontalAlignment="Stretch" Margin="0"  VerticalAlignment="Bottom" Maximum="150" TickPlacement="None" TickFrequency="0.1" IsSnapToTickEnabled="True" />
+                        <DatePicker Grid.Column="1" Name="logDate" HorizontalAlignment="Center" Margin="0" Grid.Row="1" VerticalAlignment="Center" />
+                        <TextBox Grid.Column="1" HorizontalAlignment="Stretch"  Margin="0" Grid.Row="2" TextWrapping="Wrap" Text="Comments go here" VerticalAlignment="Stretch" />
+                        <Button Content="Add" Name="AddEntryButton" Grid.Column="1" HorizontalAlignment="Center" Margin="0,0,0,0" Grid.Row="3" VerticalAlignment="Center" Width="75" Click="AddEntryButton_Click" />
+                    </Grid>
                 </TabItem>
-                <TabItem Header="Settings">
+                <TabItem Name="settingsTab" Header="Settings">
                     <Grid Background="CadetBlue" />
                 </TabItem>
                 <TabItem Header="Export/Import">
